@@ -13,7 +13,8 @@ export default function WebsocketChat({ username, chatIntent }) {
 
   // Connect WebSocket
   useEffect(() => {
-    ws.current = new WebSocket("wss://freechatbackend.aestheon.space/websocket");
+    const WS_URL = process.env.REACT_APP_WEBSOCKET_URL;
+    ws.current = new WebSocket(WS_URL);
 
     ws.current.onopen = () => {
       if (!chatIntent) return;
