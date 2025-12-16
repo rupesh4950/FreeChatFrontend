@@ -28,7 +28,9 @@ function App() {
       alert("Enter Chat ID");
       return;
     }
-    setChatIntent({ type: "JOIN", chatId: joinChatId });
+    const cleanedChatId = joinChatId.replace(/[\s-]/g, "");
+
+    setChatIntent({ type: "JOIN", chatId: cleanedChatId });
   };
 
   const handleDetailsInBottom=()=>{
@@ -70,6 +72,15 @@ function App() {
 
         {/* Step 2: Show Create/Join options */}
         {connected && !chatIntent && (
+          <div>
+            <div style={{ fontSize: "12px" }}>
+            <div>
+              1. If you are new just click on create chat it will land you into the chat page and provides the chat Id 
+            </div>
+            <div>
+              2. If you want to join the Chat , get the chatId from the previous session (or created by your friend).Then click on join Chat button.
+            </div>
+          </div>
           <div style={{ marginTop: 20 }}>
             <h3>Hello {userName}, create or join a chat</h3>
 
@@ -83,6 +94,7 @@ function App() {
               onChange={(e) => setJoinChatId(e.target.value)}
             />
             <button onClick={handleJoinChat}>Join Chat</button>
+          </div>
           </div>
         )}
 
