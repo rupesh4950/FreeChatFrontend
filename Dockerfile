@@ -1,24 +1,21 @@
-# ---------- Build stage ----------
-FROM node:18-alpine AS build
-WORKDIR /app
+FROM node:18
 
-# 👇 Accept build-time variable
-ARG REACT_APP_WEBSOCKET_URL
-ENV REACT_APP_WEBSOCKET_URL=$REACT_APP_WEBSOCKET_URL
+# Set the working directory
+WORKDIR /usr/src/app
 
-COPY package*.json ./
+# Copy package.json and package-lock.json
+COPY package.json ./
+# If you have a package-lock.json, uncomment the next line
+# COPY package-lock.json ./
+
+# Install dependencies
 RUN npm install
 
+# Copy the rest of the application code
 COPY . .
-RUN npm run build
 
-# ---------- Runtime stage ----------
-FROM nginx:alpine
+# Expose the port the app runs on
+EXPOSE 3000
 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=build /app/build /usr/share/nginx/html
-
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Command to run the application
+CMD ["npm", "start"]
