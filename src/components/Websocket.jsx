@@ -73,6 +73,11 @@ export default function WebsocketChat({ username, chatIntent }) {
     setInput("");
   };
 
+  const formatChatId = (id)=>{
+    if(!id) return "Connecting...."
+    return id.match(/.{1,3}/g).join("-");
+  }
+
   return (
     <div
       style={{
@@ -96,7 +101,7 @@ export default function WebsocketChat({ username, chatIntent }) {
           color: "#4CAF50",
         }}
       >
-        Chat ID: {chatId || "Connecting..."}
+        Chat ID: {formatChatId(chatId)}
       </div>
 
       {/* Chat Box */}
